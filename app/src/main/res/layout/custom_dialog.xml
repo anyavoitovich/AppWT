@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_height="wrap_content"
     android:clickable="true"
     android:focusable="true"
     android:focusableInTouchMode="true">
@@ -17,9 +16,10 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="239dp"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- Заголовок с результатами -->
             <TextView
                 android:id="@+id/alertTitle"
                 android:layout_width="wrap_content"
@@ -27,68 +27,65 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
                 android:padding="5dp"
-                android:text="results"
+                android:text="Results"
                 android:textAllCaps="true"
-                android:textColor="@color/black"
+                android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:visibility="visible" />
 
-            <RelativeLayout
+            <!-- Текст с сообщением о результате -->
+            <TextView
+                android:id="@+id/alert_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/white">
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Number of correct answers"
+                android:textColor="@android:color/black"
+                android:textSize="16sp" />
 
-                <TextView
-                    android:id="@+id/alert_massege"
+            <!-- Горизонтальный контейнер для кнопок "сначала" и "главная" -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <!-- Кнопка "сначала" -->
+                <Button
+                    android:id="@+id/restartButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:gravity="center"
+                    android:backgroundTint="@color/black"
                     android:padding="10dp"
-                    android:text="колличество верных ответов" />
+                    android:text="Сначала"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
 
-                <View
-                    android:id="@+id/alert_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="1dp"
-                    android:layout_below="@id/alert_massege"
-                    android:gravity="center"
-                    android:visibility="gone" />
-
-                <LinearLayout
+                <!-- Кнопка "главная" -->
+                <Button
+                    android:id="@+id/homeButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:layout_below="@id/alert_view"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+                    android:backgroundTint="@color/system"
+                    android:padding="10dp"
+                    android:text="Главная"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+                <Button
+                    android:id="@+id/testsListButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/system"
+                    android:padding="10dp"
+                    android:text="К тестам"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
-                    <Button
-                        android:id="@+id/restartButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/black"
-                        android:enabled="false"
-                        android:padding="10dp"
-                        android:text="сначало"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-
-                    <Button
-                        android:id="@+id/homeButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/system"
-                        android:enabled="false"
-                        android:padding="10dp"
-                        android:text="главная"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-
-            </RelativeLayout>
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

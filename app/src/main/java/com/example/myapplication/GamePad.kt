@@ -1,183 +1,177 @@
 package com.example.myapplication
 
-import android.app.AlertDialog
-import android.app.Dialog
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Message
-import android.view.Window
+import android.util.Log
 import android.widget.Button
+import com.example.myapplication.databinding.ActivityGamePadBinding
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.IOException
+import android.app.Dialog
+import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
-import com.example.myapplication.databinding.ActivityGamePadBinding
-import com.example.myapplication.databinding.CustomDialogBinding
-
 
 class GamePad : AppCompatActivity() {
 
     private lateinit var binding: ActivityGamePadBinding
-
-    private val questions = arrayOf(
-        "1. Я действую как представитель этого коллектива.",
-        "2. Я предоставляю членам коллектива полную свободу в выполнении работы.",
-        "3. Я поощряю применение единообразных способов работы.",
-        "4. Я разрешаю подчиненным решать задачи по их усмотрению.",
-        "5. Я побуждаю членов коллектива к большему напряжению в работе.",
-        "6. Я предоставляю подчиненным возможность делать работу так, как они считают наиболее целесообразным.",
-        "7. Я поддерживаю высокий темп работы.",
-        "8. Я стараюсь направить помыслы людей на выполнение производственных заданий.",
-        "9. Я разрешаю возникающие в коллективе конфликты.",
-        "10. Я неохотно предоставляю подчиненным свободу действий.",
-        "11. Я решаю сам, что и как должно быть сделано.",
-        "12. Я уделяю основное внимание показателям производственной деятельности.",
-        "13. Я распределяю поручения подчиненным, исходя из производственной необходимости.",
-        "14. Я способствую разным изменениям в производственном коллективе.",
-        "15. Я тщательно планирую работу своего коллектива.",
-        "16. Я не объясняю подчиненным свои действия и решения.",
-        "17. Я стремлюсь убедить подчиненных, что мои действия и намерения – для их пользы.",
-        "18. Я предоставляю подчиненным возможность устанавливать свой режим работы.",
-
-        )
-    private val options = arrayOf(
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-        arrayOf("всегда", "часто", "иногда", "редко","никогда"),
-
-        )
-    private val correctAnswers = arrayOf(0, 0, 1, 1, 2,4 ,4 ,4,3,3,3,2,1,2,3,2,1,2,3)
-    private var currentQuestionIndex = 0
-    private var score = 0
+    private lateinit var tests: JSONArray // Массив тестов из JSON
+    private lateinit var questions: JSONArray // Массив вопросов текущего теста
+    private var currentTestIndex = 0 // Индекс текущего теста
+    private var currentQuestionIndex = 0 // Индекс текущего вопроса
+    private var score = 0 // Очки игрока
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGamePadBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        displayQuestion()
+        // Загрузка тестов из JSON при создании активности
+        loadTestsFromJson()
 
-        binding.option1Button.setOnClickListener {
-            checkAnswer(0)
-        }
-        binding.option2Button.setOnClickListener {
-            checkAnswer(1)
-        }
-        binding.option3Button.setOnClickListener {
-            checkAnswer(2)
-        }
-        binding.option3Button.setOnClickListener {
-            checkAnswer(3)
-        }
-        binding.option3Button.setOnClickListener {
-            checkAnswer(4)
-        }
-//        binding.restartButton.setOnClickListener { restartQuiz() }
+        // Выбор первого теста и отображение первого вопроса
+        loadTestAndDisplayQuestion()
+
+        // Назначение обработчиков для кнопок ответов
+        binding.option1Button.setOnClickListener { checkAnswer(0) }
+        binding.option2Button.setOnClickListener { checkAnswer(1) }
+        binding.option3Button.setOnClickListener { checkAnswer(2) }
+        binding.option4Button.setOnClickListener { checkAnswer(3) }
+        binding.option5Button.setOnClickListener { checkAnswer(4) }
+
+        // Обработчик кнопки для возвращения на главный экран
         val buttonHome = findViewById<ImageButton>(R.id.buttonHome)
-
         buttonHome.setOnClickListener {
             val playIntent = Intent(this, MainActivity::class.java)
             startActivity(playIntent)
         }
-
     }
 
-//    private fun correctButtonColors(buttonIndex: Int) {
-//        when (buttonIndex) {
-//            0 -> binding.option1Button.setBackgroundColor(Color.GREEN)
-//            1 -> binding.option2Button.setBackgroundColor(Color.GREEN)
-//            2 -> binding.option3Button.setBackgroundColor(Color.GREEN)
-//        }
-//    }
-//
-//    private fun wrongButtonColors(buttonIndex: Int) {
-//        when (buttonIndex) {
-//            0 -> binding.option1Button.setBackgroundColor(Color.RED)
-//            1 -> binding.option2Button.setBackgroundColor(Color.RED)
-//            2 -> binding.option3Button.setBackgroundColor(Color.RED)
-//        }
-//    }
-
-//    private fun resetButtonColor() {
-//        binding.option1Button.setBackgroundColor(Color.rgb(255, 193, 7))
-//        binding.option2Button.setBackgroundColor(Color.rgb(255, 193, 7))
-//        binding.option3Button.setBackgroundColor(Color.rgb(255, 193, 7))
-//    }
-
-    private fun showResults(message: String?) {
-        Toast.makeText(this, "Your score: $score out of ${questions.size}", Toast.LENGTH_LONG)
-            .show()
-//        binding.restartButton.isEnabled = true
-
-        val dialog = Dialog(this)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(R.layout.custom_dialog)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        val textMassege : TextView = dialog.findViewById(R.id.alert_massege)
-        val btnRestart : Button = dialog.findViewById(R.id.restartButton)
-        val btnHome : Button = dialog.findViewById(R.id.homeButton)
-        textMassege.text = message
-        btnHome.setOnClickListener {
-            dialog.dismiss()
-        }
-        btnRestart.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialog.show()
-
+    // Функция для загрузки тестов из JSON файла
+    private fun loadTestsFromJson() {
+        // Прочитать содержимое JSON файла и преобразовать его в JSONObject
+        val jsonFileString = getJsonDataFromRaw(applicationContext, R.raw.test)
+        val jsonObject = JSONObject(jsonFileString)
+        // Получить массив уровней из объекта JSON
+        val levelsArray = jsonObject.getJSONArray("levels")
+        // Получить текущий уровень (пока что только первый)
+        val currentLevel = levelsArray.getJSONObject(0)
+        // Получить массив тестов из текущего уровня
+        tests = currentLevel.getJSONArray("tests")
     }
 
+    // Функция для загрузки текущего теста и отображения первого вопроса
+    private fun loadTestAndDisplayQuestion() {
+        // Получаем текущий объект теста из массива тестов
+        val test = tests.getJSONObject(currentTestIndex)
+        // Получаем название текущего теста
+        val testName = test.getString("test_name")
+        // Устанавливаем название теста на экране
+//        binding.testNameText.text = testName
+        // Получаем массив вопросов текущего теста
+        questions = test.getJSONArray("questions")
+        // Отображаем первый вопрос
+        displayQuestion()
+    }
+
+    // Функция для отображения текущего вопроса
     private fun displayQuestion() {
-        binding.questionText.text = questions[currentQuestionIndex]
-        binding.option1Button.text = options[currentQuestionIndex][0]
-        binding.option2Button.text = options[currentQuestionIndex][1]
-        binding.option3Button.text = options[currentQuestionIndex][2]
-        binding.option4Button.text = options[currentQuestionIndex][3]
-        binding.option5Button.text = options[currentQuestionIndex][4]
-//        resetButtonColor()
+        // Получаем текущий объект вопроса из массива вопросов
+        val questionObj = questions.getJSONObject(currentQuestionIndex)
+        // Устанавливаем текст вопроса на экране
+        binding.questionText.text = questionObj.getString("question")
+        // Получаем массив вариантов ответов и их баллы
+        val options = questionObj.getJSONArray("options")
+        // Устанавливаем тексты вариантов ответов на кнопки
+        binding.option1Button.text = options.getString(0)
+        binding.option2Button.text = options.getString(1)
+        binding.option3Button.text = options.getString(2)
+        binding.option4Button.text = options.getString(3)
+        binding.option5Button.text = options.getString(4)
     }
 
+    // Функция для проверки выбранного ответа
+// Функция для проверки выбранного ответа
     private fun checkAnswer(selectedAnswerIndex: Int) {
-        val correctAnswerIndex = correctAnswers[currentQuestionIndex]
-//        if (selectedAnswerIndex == correctAnswerIndex) {
-//            score++
-//            correctButtonColors(selectedAnswerIndex)
-//        } else {
-//            wrongButtonColors(selectedAnswerIndex)
-//            correctButtonColors(correctAnswerIndex)
-//        }
-        if (currentQuestionIndex < questions.size - 1) {
+        // Получаем текущий объект вопроса из массива вопросов
+        val questionObj = questions.getJSONObject(currentQuestionIndex)
+        // Получаем массив баллов за варианты ответов
+        val scores = questionObj.getJSONArray("scores")
+        // Получаем количество баллов за выбранный ответ
+        val scoreForSelectedAnswer = scores.getInt(selectedAnswerIndex)
+        // Увеличиваем общий счет на количество баллов за выбранный ответ
+        score += scoreForSelectedAnswer
+        // Переходим к следующему вопросу, если есть еще вопросы
+        if (currentQuestionIndex < questions.length() - 1) {
             currentQuestionIndex++
-            binding.questionText.postDelayed({ displayQuestion() }, 1000)
+            displayQuestion()
         } else {
-            val message : String? = "Your score: $score out of ${questions.size}"
-            showResults(message)
+            // Если вопросы в текущем тесте закончились
+            // Отображаем результаты текущего теста
+            showResultsDialog(score)
         }
     }
-//
-//    private fun restartQuiz() {
-//        currentQuestionIndex = 0
-//        score = 0
-//        displayQuestion()
-//        binding.restartButton.isEnabled = false
-//    }
+
+    // Функция для отображения результатов теста
+    @SuppressLint("MissingInflatedId")
+    private fun showResultsDialog(score: Int) {
+        // Создаем диалоговое окно
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.custom_dialog, null)
+        val dialog = Dialog(this)
+        dialog.setContentView(dialogView)
+
+        // Находим текстовое поле для отображения сообщения о результатах
+        val resultTextView = dialogView.findViewById<TextView>(R.id.alert_message)
+        resultTextView.text = "Number of correct answers: $score"
+
+        // Находим кнопку для повторного прохождения теста
+        val restartButton = dialogView.findViewById<Button>(R.id.restartButton)
+        restartButton.setOnClickListener {
+            // Сбрасываем счет и переходим к первому тесту и первому вопросу
+            this.score = 0
+            currentTestIndex = 0
+            currentQuestionIndex = 0
+            loadTestAndDisplayQuestion()
+            dialog.dismiss() // Закрываем диалоговое окно
+        }
+
+        // Находим кнопку для перехода к списку тестов
+        val testsListButton = dialogView.findViewById<Button>(R.id.testsListButton)
+        testsListButton.setOnClickListener {
+            val intent = Intent(this, Levels::class.java)
+            startActivity(intent) // Переходим к списку тестов
+            dialog.dismiss() // Закрываем диалоговое окно
+        }
+
+        // Находим кнопку для перехода на главный экран
+        val homeButton = dialogView.findViewById<Button>(R.id.homeButton)
+        homeButton.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent) // Переходим на главный экран
+            dialog.dismiss() // Закрываем диалоговое окно
+        }
+
+        dialog.show() // Отображаем диалоговое окно
+    }
+
+
+
+    // Функция для чтения JSON файла из папки assets
+    private fun getJsonDataFromRaw(context: Context, resId: Int): String? {
+        return try {
+            val inputStream = context.resources.openRawResource(resId)
+            val size = inputStream.available()
+            val buffer = ByteArray(size)
+            inputStream.read(buffer)
+            inputStream.close()
+            String(buffer, Charsets.UTF_8)
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+            null
+        }
+    }
 }

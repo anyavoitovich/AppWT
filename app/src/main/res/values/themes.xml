@@ -14,4 +14,13 @@
         <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
         <item name="postSplashScreenTheme">@style/Base.Theme.MyApplication</item>
     </style>
+<!--    <style name="LevelButtonStyle" parent="Widget.AppCompat.Button">-->
+<!--        <item name="android:layout_width">match_parent</item>-->
+<!--        <item name="android:layout_height">wrap_content</item>-->
+<!--        <item name="android:layout_marginTop">8dp</item>-->
+<!--        <item name="android:layout_marginBottom">8dp</item>-->
+<!--        <item name="android:backgroundTint">@color/system</item>-->
+<!--        <item name="android:textSize">16sp</item>-->
+<!--        <item name="android:padding">16dp</item>-->
+<!--    </style>-->
 </resources>

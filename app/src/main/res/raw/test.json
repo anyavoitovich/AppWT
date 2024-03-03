@@ -1,11 +1,189 @@
+
 {
-  "tests": [
+  "levels": [
     {
       "level": 1,
-      "number": 1,
-      "question": "Я действую как представитель этого коллектива.",
-      "options": ["всегда", "часто", "иногда", "редко", "никогда"],
-      "correct_answer": 0
+      "tests": [
+        {
+          "test_number": 1,
+          "test_name": "HI first",
+          "questions": [
+            {
+              "question": "Question 1",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            },
+            {
+              "question": "Question 2",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            },
+            {
+              "question": "Question 3",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            }
+          ]
+        },
+        {
+          "test_number": 2,
+          "test_name": "Test 2",
+          "questions": [
+            {
+              "question": "Question 1",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 2,
+      "tests": [
+        {
+          "test_number": 1,
+          "test_name": "HI second",
+          "questions": [
+            {
+              "question": "Question 1",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            },
+            {
+              "question": "Question 2",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            },
+            {
+              "question": "Question 3",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            }
+          ]
+        },
+        {
+          "test_number": 2,
+          "test_name": "Test 2",
+          "questions": [
+            {
+              "question": "Question 1",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            }
+          ]
+        }
+      ]
+    },{
+      "level": 3,
+      "tests": [
+        {
+          "test_number": 1,
+          "test_name": "HI third",
+          "questions": [
+            {
+              "question": "Question 1",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            },
+            {
+              "question": "Question 2",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            },
+            {
+              "question": "Question 3",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            }
+          ]
+        },
+        {
+          "test_number": 2,
+          "test_name": "Test 2",
+          "questions": [
+            {
+              "question": "Question 1",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 4,
+      "tests": [
+        {
+          "test_number": 1,
+          "test_name": "HI forth",
+          "questions": [
+            {
+              "question": "Question 1",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            },
+            {
+              "question": "Question 2",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            },
+            {
+              "question": "Question 3",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            }
+          ]
+        },
+        {
+          "test_number": 2,
+          "test_name": "Test 2",
+          "questions": [
+            {
+              "question": "Question 1",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "level": 5,
+      "tests": [
+        {
+          "test_number": 1,
+          "test_name": "HI fifth",
+          "questions": [
+            {
+              "question": "Question 1",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            },
+            {
+              "question": "Question 2",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            },
+            {
+              "question": "Question 3",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            }
+          ]
+        },
+        {
+          "test_number": 2,
+          "test_name": "Test 2",
+          "questions": [
+            {
+              "question": "Question 1",
+              "options": ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"],
+              "scores": [5, 3, 2, 1, 0]
+            }
+          ]
+        }
+      ]
     }
   ]
 }

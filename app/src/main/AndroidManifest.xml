@@ -13,9 +13,10 @@
         android:theme="@style/Theme.MyApplication"
         android:fitsSystemWindows="false"
         tools:targetApi="31">
-        <activity
-            android:name=".GamePad"
-            android:exported="false" />
+        <activity android:name=".GamePad"
+            android:exported="true">
+
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true"
